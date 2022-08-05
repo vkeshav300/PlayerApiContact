@@ -2,7 +2,7 @@
 import json
 from requests import get
 
-class Get_Data():
+class Player():
     def __init__(self, uuid_dashed, API_KEY):
         # To get uuid_dashed is used to identify the player- Pubically availible on sites like namemc.com
         self.uuid_dashed = str(uuid_dashed)
@@ -15,14 +15,14 @@ class Get_Data():
         r = get(call)
         return r.json()
 
-    def get_player_data(self):
+    def get_hypixel_stats(self):
         # Gets Player Data
         uuid_link = f'https://api.hypixel.net/player?key={self.API_KEY}&uuid={self.uuid_dashed}'
         return self.get_info(uuid_link)
 
     def get_skyblock_data(self, PreferredProfile):
         # Gets Skyblock Profile Data
-        PlayerInfo = self.get_player_data()
+        PlayerInfo = self.get_hypixel_stats()
 
         try:
             ProfileSection = PlayerInfo['player']['stats']['SkyBlock']['profiles']
