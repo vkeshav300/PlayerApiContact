@@ -12,8 +12,7 @@ class Player():
 
     def get_info(self, call):
         # Uses requests library and json library to get JSON file from website
-        r = get(call)
-        return r.json()
+        return get(call).json()
 
     def get_hypixel_stats(self):
         # Gets Player Data
