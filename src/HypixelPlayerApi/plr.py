@@ -3,9 +3,17 @@ import json
 from requests import get
 
 class Player():
-    def __init__(self, uuid_dashed, API_KEY):
-        # To get uuid_dashed is used to identify the player- Pubically availible on sites like namemc.com
-        self.uuid_dashed = str(uuid_dashed)
+    def __init__(self, identifier, API_KEY):
+        self.identification_method = str(identifier[1])
+
+        if self.identification_method == 'UUID':
+            self.uuid_dashed = str(identifier[0])
+
+        elif self.identification_method == 'USERNAME':
+            self.username = str(identifier[0])
+
+        else:
+            raise TypeError('Argument 1, index 1, is not either "UUID" or "USERNAME".')
 
         # To get API_KEY type in /api new in Hypixel chat
         self.API_KEY = str(API_KEY)
@@ -16,8 +24,13 @@ class Player():
 
     def get_hypixel_stats(self):
         # Gets Player Data
-        uuid_link = f'https://api.hypixel.net/player?key={self.API_KEY}&uuid={self.uuid_dashed}'
-        return self.get_info(uuid_link)
+        if self.identification_method == 'UUID':
+            hypixel_stats_link = f'https://api.hypixel.net/player?key={self.API_KEY}&uuid={self.uuid_dashed}'
+
+        if self.identification_method == 'USERNAME':
+            hypixel_stats_link = f'https://api.hypixel.net/player?key={self.API_KEY}&name={self.username}'
+
+        return self.get_info(hypixel_stats_link)
 
     def get_skyblock_data(self, PreferredProfile):
         # Gets Skyblock Profile Data
